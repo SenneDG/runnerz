@@ -20,9 +20,9 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/runs")
 public class RunController {
     
-        private final RunRepository runRepository;
+        private final JdbcRunRepository runRepository;
     
-        public RunController(RunRepository runRepository) {
+        public RunController(JdbcRunRepository runRepository) {
             this.runRepository = runRepository;
         }
 
@@ -44,18 +44,18 @@ public class RunController {
         @ResponseStatus(HttpStatus.CREATED)
         @PostMapping("")
         void create(@Valid @RequestBody Run run) {
-            runRepository.save(run);
+            runRepository.create(run);
         }
 
         @ResponseStatus(HttpStatus.NO_CONTENT)
         @PutMapping("/{id}")
         void update(@Valid @RequestBody Run run, @PathVariable Integer id) {
-            runRepository.save(run);
+            runRepository.update(run, id);
         }
 
         @ResponseStatus(HttpStatus.NO_CONTENT)
         @DeleteMapping("/{id}")
         void delete(@PathVariable Integer id) {
-            runRepository.delete(runRepository.findById(id).get());
+            runRepository.delete(id);
         }
 }

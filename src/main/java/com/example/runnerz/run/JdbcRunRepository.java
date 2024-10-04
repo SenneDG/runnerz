@@ -23,7 +23,7 @@ public class JdbcRunRepository {
     }
 
     public Optional<Run> findById(Integer id) {
-        return jdbcClient.sql("SELECT id,title,started_on,ended_on,miles,location FROM Run WHERE id = :id" )
+        return jdbcClient.sql("SELECT id,title,started_on,ended_on,miles,location,version FROM Run WHERE id = :id" )
                 .param("id", id)
                 .query(Run.class)
                 .optional();
@@ -38,7 +38,7 @@ public class JdbcRunRepository {
     }
 
     public void update(Run run, Integer id) {
-        var updated = jdbcClient.sql("update run set title = ?, started_on = ?, ended_on = ?, miles = ?, location = ? where id = ?")
+        var updated = jdbcClient.sql("update run set title = ?, started_on = ?, ended_on = ?, miles = ?, location = ?, version = ? where id = ?")
                 .params(List.of(run.title(),run.startedOn(),run.endedOn(),run.miles(),run.location().toString(), id))
                 .update();
 
